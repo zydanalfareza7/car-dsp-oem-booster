@@ -10,27 +10,27 @@ import android.os.Build
 import android.util.Log
 
 /**
- * Core Car Audio DSP Engine v1.2.0 (by Zydan • Full Power Vocal & Clarity Edition).
+ * Core Car Audio DSP Engine v1.3.0 (by Zydan • Golden OEM Maknyus Edition).
  *
- * Uses 100% FULL POWER hardware & DynamicsProcessing output (just like v1.0.0 that strongly affected the HU),
- * but redirects the power from muddy low-mid bass into crystal-clear Vocal Presence (1kHz-4kHz),
- * Crisp High-End Sparkle (8kHz-16kHz), deep 250Hz-500Hz anti-mud cuts, and tight punchy sub-bass!
+ * Combines the deep, warm, full-bodied Sub-Bass & Mid-Bass engine from v1.0.0
+ * with balanced, natural OEM Vocal Clarity and silky Treble—zero hollow/kopong cuts,
+ * zero vocal drowning. Pure warm & punchy OEM car audio character!
  */
 data class DspConfig(
     val enabled: Boolean = true,
     val presetId: String = "OEM_PIONEER",
-    val preampGainDb: Float = 6.5f,          // -6 dB to +12 dB (Strong audible pre-amp boost)
-    val subBassPunch: Int = 40,              // 0 to 100 (Tight punchy bass without drowning vocals)
-    val vocalClarity: Int = 90,              // 0 to 100 (Strong forward vocal presence)
-    val trebleSparkle: Int = 85,             // 0 to 100 (Crisp high-end detail & air)
-    val loudnessComp: Boolean = false,       // Off by default so bass doesn't mask vocals
-    val youtubeFixer: Boolean = true,        // Deep de-mud cut at 250-500Hz + high vocal lift
+    val preampGainDb: Float = 5.5f,          // -6 dB to +12 dB
+    val subBassPunch: Int = 55,              // 0 to 100 (Warm, round, punchy bass)
+    val vocalClarity: Int = 65,              // 0 to 100 (Clear, warm, full-bodied vocals)
+    val trebleSparkle: Int = 65,             // 0 to 100 (Crisp detail without harshness)
+    val loudnessComp: Boolean = true,        // Adds rich OEM low-volume fullness
+    val youtubeFixer: Boolean = false,       // Optional de-mud (gentle, never makes sound hollow)
     val cabinStage: Int = 30,                // 0 to 100 stereo stage
     // 10-Band ISO frequencies: 31, 62, 125, 250, 500, 1k, 2k, 4k, 8k, 16k (in dB, -12 to +12)
-    val eqBandsDb: FloatArray = floatArrayOf(3.5f, 4.0f, -1.5f, -5.5f, -3.0f, 5.5f, 7.5f, 7.0f, 6.5f, 7.0f)
+    val eqBandsDb: FloatArray = floatArrayOf(4.5f, 5.0f, 3.0f, 0.0f, 0.5f, 2.5f, 3.5f, 4.0f, 4.5f, 5.0f)
 ) {
     companion object {
-        const val CONFIG_SCHEMA_VERSION = 3 // Forces upgrade to v1.2 Full-Power Clear Vocal defaults
+        const val CONFIG_SCHEMA_VERSION = 4 // Forces upgrade to v1.3 Golden Maknyus defaults
 
         val BAND_FREQUENCIES = floatArrayOf(
             31f, 62f, 125f, 250f, 500f, 1000f, 2000f, 4000f, 8000f, 16000f
@@ -44,54 +44,54 @@ data class DspConfig(
                 "OEM_PIONEER" -> DspConfig(
                     enabled = true,
                     presetId = "OEM_PIONEER",
-                    preampGainDb = 6.5f,
-                    subBassPunch = 40,
-                    vocalClarity = 90,
-                    trebleSparkle = 85,
-                    loudnessComp = false,
-                    youtubeFixer = true,
+                    preampGainDb = 5.5f,
+                    subBassPunch = 55,
+                    vocalClarity = 65,
+                    trebleSparkle = 65,
+                    loudnessComp = true,
+                    youtubeFixer = false,
                     cabinStage = 30,
-                    // Punchy sub-bass (+3.5/+4.0dB), deep cut at muddy 125-500Hz (-5.5dB), huge vocal & treble clarity (+5.5 to +7.5dB)
-                    eqBandsDb = floatArrayOf(3.5f, 4.0f, -1.5f, -5.5f, -3.0f, 5.5f, 7.5f, 7.0f, 6.5f, 7.0f)
+                    // Golden OEM Curve: Deep punchy bass (31-125Hz), warm full body (250-500Hz never hollow!), clear vocals (1k-4k), crisp highs
+                    eqBandsDb = floatArrayOf(4.5f, 5.0f, 3.0f, 0.0f, 0.5f, 2.5f, 3.5f, 4.0f, 4.5f, 5.0f)
                 )
                 "OEM_KENWOOD" -> DspConfig(
                     enabled = true,
                     presetId = "OEM_KENWOOD",
-                    preampGainDb = 7.0f,
-                    subBassPunch = 20,
-                    vocalClarity = 100,
-                    trebleSparkle = 85,
-                    loudnessComp = false,
-                    youtubeFixer = true,
-                    cabinStage = 20,
-                    // Maximum upfront vocal clarity, minimal bass boom, ultra-clean mid-bass cut
-                    eqBandsDb = floatArrayOf(1.5f, 2.0f, -2.5f, -6.5f, -3.0f, 7.0f, 9.0f, 8.0f, 6.5f, 6.5f)
+                    preampGainDb = 5.5f,
+                    subBassPunch = 48,
+                    vocalClarity = 78,
+                    trebleSparkle = 65,
+                    loudnessComp = true,
+                    youtubeFixer = false,
+                    cabinStage = 25,
+                    // Thick, sweet, intimate vocals with warm mid-bass punch (like OEM Toyota/Honda Kenwood)
+                    eqBandsDb = floatArrayOf(3.5f, 4.5f, 3.0f, 0.5f, 1.5f, 3.5f, 4.5f, 4.0f, 4.0f, 4.5f)
                 )
                 "YOUTUBE_FIXER" -> DspConfig(
                     enabled = true,
                     presetId = "YOUTUBE_FIXER",
-                    preampGainDb = 8.0f,
-                    subBassPunch = 35,
-                    vocalClarity = 95,
-                    trebleSparkle = 95,
-                    loudnessComp = false,
+                    preampGainDb = 6.5f,
+                    subBassPunch = 55,
+                    vocalClarity = 75,
+                    trebleSparkle = 75,
+                    loudnessComp = true,
                     youtubeFixer = true,
                     cabinStage = 35,
-                    // Aggressive anti-mendem curve for YouTube regular videos
-                    eqBandsDb = floatArrayOf(3.0f, 3.5f, -2.5f, -7.0f, -4.5f, 6.5f, 8.5f, 8.5f, 8.0f, 8.5f)
+                    // Restores YouTube regular videos: keeps punchy bass (31-125Hz), gently cleans 250Hz (-1.0dB), boosts vocal & treble clarity
+                    eqBandsDb = floatArrayOf(4.5f, 5.0f, 2.5f, -1.0f, 0.5f, 3.0f, 4.5f, 4.5f, 5.0f, 5.5f)
                 )
                 "YTMUSIC_JBL" -> DspConfig(
                     enabled = true,
                     presetId = "YTMUSIC_JBL",
-                    preampGainDb = 6.5f,
-                    subBassPunch = 55,
-                    vocalClarity = 85,
-                    trebleSparkle = 90,
-                    loudnessComp = false,
-                    youtubeFixer = true,
+                    preampGainDb = 6.0f,
+                    subBassPunch = 68,
+                    vocalClarity = 68,
+                    trebleSparkle = 75,
+                    loudnessComp = true,
+                    youtubeFixer = false,
                     cabinStage = 35,
-                    // Dynamic V-Shape with clean vocal presence and deep 250Hz mud cut
-                    eqBandsDb = floatArrayOf(5.0f, 5.5f, 0.0f, -5.0f, -2.5f, 5.0f, 7.0f, 7.0f, 7.5f, 8.0f)
+                    // Extra punchy JBL / Harman curve for YT Music & Spotify with full-bodied bass & clear vocals
+                    eqBandsDb = floatArrayOf(5.5f, 6.0f, 3.5f, 0.0f, 0.5f, 2.5f, 3.5f, 4.5f, 5.0f, 5.5f)
                 )
                 "FLAT_BYPASS" -> DspConfig(
                     enabled = true,
@@ -131,10 +131,6 @@ class CarDspController(private val context: Context) {
         attachSession(0)
     }
 
-    /**
-     * Releases all existing sessions and re-attaches fresh hardware AudioEffects with high priority (200)
-     * so updating the APK or switching apps immediately takes control of the Head Unit audio chip.
-     */
     @Synchronized
     fun forceRehookAllSessions() {
         val currentIds = activeSessions.keys.toList().ifEmpty { listOf(0) }
@@ -154,7 +150,7 @@ class CarDspController(private val context: Context) {
 
         val effects = SessionEffects()
 
-        // 1. Multi-Stage DynamicsProcessing (API 28+) with Priority 200
+        // 1. Multi-Stage DynamicsProcessing (API 28+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             try {
                 val cfgBuilder = DynamicsProcessing.Config.Builder(
@@ -174,7 +170,7 @@ class CarDspController(private val context: Context) {
             }
         }
 
-        // 2. Standard Hardware Equalizer (100% Full Power Priority 200)
+        // 2. Standard Hardware Equalizer
         try {
             val eq = Equalizer(200, sessionId)
             eq.enabled = currentConfig.enabled
@@ -192,7 +188,7 @@ class CarDspController(private val context: Context) {
             Log.w(TAG, "BassBoost unavailable on session $sessionId: ${e.message}")
         }
 
-        // 4. LoudnessEnhancer (Full Power Pre-Amp Voltage Booster)
+        // 4. LoudnessEnhancer
         try {
             val le = LoudnessEnhancer(sessionId)
             le.enabled = currentConfig.enabled
@@ -230,9 +226,11 @@ class CarDspController(private val context: Context) {
     }
 
     /**
-     * Computes the final composite 10-band response curve (in dB) at 100% FULL POWER,
-     * focusing energy on Vocal Clarity (1kHz-4kHz) and High Sparkle (8kHz-16kHz) while
-     * scooping out the muddy 125Hz-500Hz frequencies that caused bass to drown out vocals.
+     * Computes the final composite 10-band response curve (in dB).
+     * Pure additive & transparent musical shaping:
+     * - Sub-Bass lifts 31Hz, 62Hz, and 125Hz (warm punchy body, NEVER cuts mid-bass!)
+     * - Vocal Clarity lifts 500Hz (warm vocal chest) + 1kHz, 2kHz, 4kHz (clear articulation)
+     * - Treble Sparkle lifts 8kHz, 16kHz (silky air)
      */
     fun computeEffectiveCurveDb(cfg: DspConfig = currentConfig): FloatArray {
         val out = FloatArray(10)
@@ -243,49 +241,48 @@ class CarDspController(private val context: Context) {
         for (i in 0 until 10) {
             var db = cfg.eqBandsDb.getOrElse(i) { 0f }
 
-            // Sub-bass punch (31Hz & 62Hz only, while automatically scooping 250Hz mud!)
+            // Warm Sub-Bass & Mid-Bass Punch (31Hz, 62Hz, 125Hz) - just like v1.0 but balanced!
             when (i) {
-                0 -> db += bassFactor * 3.5f
+                0 -> db += bassFactor * 3.2f
                 1 -> db += bassFactor * 3.5f
-                2 -> db -= bassFactor * 1.0f // prevents 125Hz boomy overhang
-                3 -> db -= bassFactor * 2.5f // prevents bass from masking vocals
+                2 -> db += bassFactor * 2.0f // 125Hz gives the meaty drum/bass body so it's never hollow!
             }
 
-            // Strong Vocal Presence Enhancer (1kHz, 2kHz, 4kHz)
+            // Full-bodied Vocal Presence (500Hz chest warmth + 1kHz-4kHz clarity)
             when (i) {
-                5 -> db += vocalFactor * 3.5f
-                6 -> db += vocalFactor * 5.0f
-                7 -> db += vocalFactor * 4.5f
+                4 -> db += vocalFactor * 1.2f // 500Hz keeps vocals thick and natural
+                5 -> db += vocalFactor * 2.8f
+                6 -> db += vocalFactor * 3.5f
+                7 -> db += vocalFactor * 3.0f
             }
 
-            // Strong Treble Exciter (8kHz, 16kHz)
+            // Silky Treble Exciter (8kHz, 16kHz)
             when (i) {
-                8 -> db += trebleFactor * 4.5f
-                9 -> db += trebleFactor * 5.5f
+                8 -> db += trebleFactor * 3.2f
+                9 -> db += trebleFactor * 3.8f
             }
 
-            // Optional OEM Loudness Contour
+            // OEM Loudness Contour (warm low-volume fullness)
             if (cfg.loudnessComp) {
                 when (i) {
-                    0, 1 -> db += 2.0f
-                    8, 9 -> db += 2.0f
+                    0, 1 -> db += 1.5f
+                    2 -> db += 0.8f
+                    6, 7 -> db += 1.0f // keeps vocals level with bass when Loudness is ON!
+                    8, 9 -> db += 1.5f
                 }
             }
 
-            // YouTube De-Mud & Vocal Restorer (deep cut at 125-500Hz mud + strong vocal & air lift)
+            // YouTube Video Enhancer (gentle -1.2dB cleanup at 250Hz + extra vocal & bass energy)
             if (cfg.youtubeFixer) {
                 when (i) {
-                    2 -> db -= 2.0f // 125Hz boom cut
-                    3 -> db -= 4.0f // 250Hz mud cut
-                    4 -> db -= 2.5f // 500Hz boxy kardus cut
-                    5 -> db += 2.5f // 1kHz vocal lift
-                    6 -> db += 3.5f // 2kHz vocal clarity lift
-                    7 -> db += 3.0f // 4kHz presence lift
-                    8, 9 -> db += 2.5f
+                    0, 1 -> db += 1.2f
+                    3 -> db -= 1.2f // gentle cleanup at 250Hz without making it hollow
+                    5, 6, 7 -> db += 1.8f
+                    8, 9 -> db += 1.8f
                 }
             }
 
-            out[i] = db.coerceIn(-15f, 15f)
+            out[i] = db.coerceIn(-14f, 14f)
         }
         return out
     }
@@ -294,7 +291,7 @@ class CarDspController(private val context: Context) {
         val cfg = currentConfig
         val finalCurve = computeEffectiveCurveDb(cfg)
 
-        // 1. Apply DynamicsProcessing at 100% FULL POWER (API 28+)
+        // 1. Apply DynamicsProcessing (API 28+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             val dp = effects.dynamics
             if (dp != null) {
@@ -303,7 +300,6 @@ class CarDspController(private val context: Context) {
                     if (cfg.enabled) {
                         dp.setInputGainAllChannelsTo(cfg.preampGainDb)
 
-                        // Full 100% curve split across Pre-EQ (40%) and Post-EQ (60%)
                         for (i in 0 until 10) {
                             val freq = DspConfig.BAND_FREQUENCIES[i]
                             val preBand = DynamicsProcessing.EqBand(true, freq, finalCurve[i] * 0.4f)
@@ -312,22 +308,23 @@ class CarDspController(private val context: Context) {
                             dp.setPostEqBandAllChannelsTo(i, postBand)
                         }
 
-                        // 4-Band Multi-Band Compressor (MBC): suppresses muddy low-mids & pushes vocals forward!
-                        val mbcCutoffs = floatArrayOf(105f, 550f, 4800f, 20000f)
+                        // 4-Band Multi-Band Compressor (MBC): ALL 4 BANDS POSITIVE & BALANCED!
+                        // Band 0 (Sub-Bass), Band 1 (Warm Mid-Bass & Lower Vocal Body), Band 2 (Clear Vocals), Band 3 (Crisp Highs)
+                        val mbcCutoffs = floatArrayOf(120f, 650f, 4500f, 20000f)
                         val mbcPostGains = floatArrayOf(
-                            (cfg.subBassPunch / 100f) * 2.2f,  // Band 0 (<105Hz): Tight Sub-Bass
-                            -2.5f,                             // Band 1 (105-550Hz): Suppress muddy bass resonance!
-                            (cfg.vocalClarity / 100f) * 5.0f,  // Band 2 (550Hz-4.8kHz): HUGE Vocal Clarity Boost!
-                            (cfg.trebleSparkle / 100f) * 4.0f  // Band 3 (>4.8kHz): Crisp Treble Sparkle!
+                            (cfg.subBassPunch / 100f) * 2.8f,  // Band 0 (<120Hz): Deep round Sub-Bass
+                            ((cfg.subBassPunch + cfg.vocalClarity) / 200f) * 2.2f, // Band 1 (120-650Hz): Warm full-bodied meat (NEVER NEGATIVE!)
+                            (cfg.vocalClarity / 100f) * 3.5f,  // Band 2 (650Hz-4.5kHz): Clear upfront Vocals
+                            (cfg.trebleSparkle / 100f) * 3.0f  // Band 3 (>4.5kHz): Crisp Silky Treble
                         )
                         for (b in 0 until 4) {
                             val mbcBand = DynamicsProcessing.MbcBand(
                                 true,
                                 mbcCutoffs[b],
-                                8.0f,   // attackTime ms
-                                85.0f,  // releaseTime ms
-                                2.2f,   // compression ratio
-                                -24.0f, // threshold dB
+                                10.0f,  // smooth musical attackTime ms
+                                90.0f,  // natural releaseTime ms
+                                2.0f,   // warm analog-style 2:1 compression ratio
+                                -23.0f, // threshold dB
                                 6.0f,   // soft knee width dB
                                 -58.0f, // noise gate threshold
                                 1.0f,   // expander ratio
@@ -337,15 +334,15 @@ class CarDspController(private val context: Context) {
                             dp.setMbcBandAllChannelsTo(b, mbcBand)
                         }
 
-                        // Brickwall Limiter with high headroom so bass never ducks vocals
+                        // Soft-Knee Limiter at -0.8 dB
                         val limiter = DynamicsProcessing.Limiter(
                             true,
                             true,
                             0,
-                            2.0f,
-                            55.0f,
-                            4.0f,
-                            -0.5f,
+                            2.5f,
+                            60.0f,
+                            3.8f,
+                            -0.8f,
                             0.0f
                         )
                         dp.setLimiterAllChannelsTo(limiter)
@@ -356,7 +353,7 @@ class CarDspController(private val context: Context) {
             }
         }
 
-        // 2. Apply Hardware Equalizer at 100% FULL POWER (no 0.5x divider!)
+        // 2. Apply Hardware Equalizer
         val eq = effects.equalizer
         if (eq != null) {
             try {
@@ -379,13 +376,13 @@ class CarDspController(private val context: Context) {
             }
         }
 
-        // 3. Apply Hardware BassBoost (Balanced 6x multiplier, max 600 permille so it punches hard without drowning vocals)
+        // 3. Apply Hardware BassBoost (Sweet spot 6.5x multiplier: warm & punchy without swallowing vocals)
         val bb = effects.bassBoost
         if (bb != null) {
             try {
                 bb.enabled = cfg.enabled && cfg.subBassPunch > 0
                 if (cfg.enabled && bb.strengthSupported) {
-                    val strength = (cfg.subBassPunch * 6).coerceIn(0, 600).toShort()
+                    val strength = (cfg.subBassPunch * 6.5f).toInt().coerceIn(0, 650).toShort()
                     bb.setStrength(strength)
                 }
             } catch (e: Throwable) {
@@ -393,14 +390,14 @@ class CarDspController(private val context: Context) {
             }
         }
 
-        // 4. Apply LoudnessEnhancer Pre-Amp Gain at 100% FULL POWER (just like v1.0.0!)
+        // 4. Apply LoudnessEnhancer Pre-Amp Gain
         val le = effects.loudness
         if (le != null) {
             try {
                 le.enabled = cfg.enabled
                 if (cfg.enabled) {
-                    val extraVocalBoost = if (cfg.youtubeFixer) 150 else 0
-                    val targetGainMb = ((cfg.preampGainDb * 100).toInt() + extraVocalBoost).coerceIn(0, 1200)
+                    val extraYtBoost = if (cfg.youtubeFixer) 150 else 0
+                    val targetGainMb = ((cfg.preampGainDb * 100).toInt() + extraYtBoost).coerceIn(0, 1100)
                     le.setTargetGain(targetGainMb)
                 }
             } catch (e: Throwable) {
@@ -495,12 +492,12 @@ class CarDspController(private val context: Context) {
         return DspConfig(
             enabled = prefs.getBoolean("enabled", true),
             presetId = prefs.getString("presetId", "OEM_PIONEER") ?: "OEM_PIONEER",
-            preampGainDb = prefs.getFloat("preampGainDb", 6.5f),
-            subBassPunch = prefs.getInt("subBassPunch", 40),
-            vocalClarity = prefs.getInt("vocalClarity", 90),
-            trebleSparkle = prefs.getInt("trebleSparkle", 85),
-            loudnessComp = prefs.getBoolean("loudnessComp", false),
-            youtubeFixer = prefs.getBoolean("youtubeFixer", true),
+            preampGainDb = prefs.getFloat("preampGainDb", 5.5f),
+            subBassPunch = prefs.getInt("subBassPunch", 55),
+            vocalClarity = prefs.getInt("vocalClarity", 65),
+            trebleSparkle = prefs.getInt("trebleSparkle", 65),
+            loudnessComp = prefs.getBoolean("loudnessComp", true),
+            youtubeFixer = prefs.getBoolean("youtubeFixer", false),
             cabinStage = prefs.getInt("cabinStage", 30),
             eqBandsDb = bands
         )

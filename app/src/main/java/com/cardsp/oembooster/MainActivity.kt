@@ -163,7 +163,7 @@ class MainActivity : AppCompatActivity() {
             setTypeface(typeface, Typeface.BOLD)
         }
         val tvByZydan = TextView(this).apply {
-            text = "by Zydan • v1.2 Full Power"
+            text = "by Zydan • v1.3 Maknyus"
             setTextColor(Color.parseColor("#F59E0B"))
             textSize = 12f
             setTypeface(typeface, Typeface.BOLD)
