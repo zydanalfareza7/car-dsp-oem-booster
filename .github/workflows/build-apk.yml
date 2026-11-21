@@ -37,7 +37,7 @@ jobs:
           name: Car-DSP-OEM-Restorer-APK
           path: Car-DSP-OEM-Restorer.apk
 
-      - name: Publish APK to GitHub Releases (Direct Download for Car HU)
+      - name: Publish APK to GitHub Releases v1.1.0 (Latest)
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v1.1.0
@@ -52,3 +52,11 @@ jobs:
           files: Car-DSP-OEM-Restorer.apk
           prerelease: false
           make_latest: true
+
+      - name: Overwrite v1.0.0 APK Asset so old direct link also downloads v1.1.0
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.0
+          name: "Car DSP OEM Sound Restorer v1.1.0 (by Zydan • Clear Vocal Edition)"
+          files: Car-DSP-OEM-Restorer.apk
+          prerelease: false
