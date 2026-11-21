@@ -40,10 +40,14 @@ jobs:
       - name: Publish APK to GitHub Releases (Direct Download for Car HU)
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.0.0
-          name: "Car DSP OEM Sound Restorer v1.0.0 (Direct APK)"
+          tag_name: v1.1.0
+          name: "Car DSP OEM Sound Restorer v1.1.0 (by Zydan • Clear Vocal Edition)"
           body: |
-            ### 🚗 Download & Install di Head Unit Android
+            ### 🚗 Car DSP OEM Sound Restorer v1.1.0 — by Zydan
+            - **Fixed Double-Bass Stacking & Bass Masking:** Bass tidak lagi menutupi suara vokal penyanyi.
+            - **Upfront Vocal Clarity (1kHz–4kHz) & Anti-Mud Cut (250Hz):** Vokal jernih, maju di atas dashboard, dan bass tetap bulat tanpa mendem.
+            - **Header Badge `by Zydan • v1.1`** + Auto-migration dari setting v1.0.0.
+            
             Klik file **`Car-DSP-OEM-Restorer.apk`** di bawah bagian **Assets** untuk langsung download dan install di Head Unit Android mobil.
           files: Car-DSP-OEM-Restorer.apk
           prerelease: false

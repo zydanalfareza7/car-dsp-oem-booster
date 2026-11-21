@@ -150,18 +150,36 @@ class MainActivity : AppCompatActivity() {
             orientation = LinearLayout.VERTICAL
             layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
         }
+        val titleRow = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+        }
         val tvTitle = TextView(this).apply {
             text = "CAR DSP • OEM SOUND RESTORER"
             setTextColor(Color.parseColor("#00E5FF"))
             textSize = 17f
             setTypeface(typeface, Typeface.BOLD)
         }
+        val tvByZydan = TextView(this).apply {
+            text = "by Zydan • v1.1"
+            setTextColor(Color.parseColor("#F59E0B"))
+            textSize = 12f
+            setTypeface(typeface, Typeface.BOLD)
+            background = cardBg("#1E293B", "#F59E0B", 6)
+            setPadding(dp(8), dp(2), dp(8), dp(2))
+        }
+        titleRow.addView(tvTitle)
+        titleRow.addView(tvByZydan, LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        ).apply { leftMargin = dp(10) })
+
         tvStatusBadge = TextView(this).apply {
-            text = "Engine: Multi-Stage DynamicsProcessing + Global Mix Active"
+            text = "Engine: Multi-Stage DynamicsProcessing + Vocal Clarity Active"
             setTextColor(Color.parseColor("#94A3B8"))
             textSize = 12f
         }
-        titleCol.addView(tvTitle)
+        titleCol.addView(titleRow)
         titleCol.addView(tvStatusBadge)
         header.addView(titleCol)
 
