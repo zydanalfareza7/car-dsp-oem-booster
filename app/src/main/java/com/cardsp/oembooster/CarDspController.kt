@@ -283,7 +283,8 @@ class CarDspController(private val context: Context) {
 
         // 1. Apply DynamicsProcessing (API 28+)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            effects.dynamics?.let { dp ->
+            val dp = effects.dynamics
+            if (dp != null) {
                 try {
                     dp.enabled = cfg.enabled
                     if (cfg.enabled) {
@@ -344,7 +345,8 @@ class CarDspController(private val context: Context) {
         }
 
         // 2. Apply Hardware Equalizer (maps our 10-band curve onto the HU's native hardware EQ bands)
-        effects.equalizer?.let { eq ->
+        val eq = effects.equalizer
+        if (eq != null) {
             try {
                 eq.enabled = cfg.enabled
                 if (cfg.enabled) {
@@ -366,7 +368,8 @@ class CarDspController(private val context: Context) {
         }
 
         // 3. Apply Hardware BassBoost (0 - 1000 permille)
-        effects.bassBoost?.let { bb ->
+        val bb = effects.bassBoost
+        if (bb != null) {
             try {
                 bb.enabled = cfg.enabled
                 if (cfg.enabled && bb.strengthSupported) {
@@ -379,7 +382,8 @@ class CarDspController(private val context: Context) {
         }
 
         // 4. Apply LoudnessEnhancer Pre-Amp Gain (in millibels, 1 dB = 100 mB)
-        effects.loudness?.let { le ->
+        val le = effects.loudness
+        if (le != null) {
             try {
                 le.enabled = cfg.enabled
                 if (cfg.enabled) {
@@ -393,7 +397,8 @@ class CarDspController(private val context: Context) {
         }
 
         // 5. Apply Cabin Stage Virtualizer (0 - 1000 permille)
-        effects.virtualizer?.let { virt ->
+        val virt = effects.virtualizer
+        if (virt != null) {
             try {
                 virt.enabled = cfg.enabled && cfg.cabinStage > 0
                 if (cfg.enabled && virt.strengthSupported) {
