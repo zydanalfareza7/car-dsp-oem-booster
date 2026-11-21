@@ -73,6 +73,8 @@ class MainActivity : AppCompatActivity() {
             val binder = service as DspEngineService.LocalBinder
             dspService = binder.getService()
             isBound = true
+            // Force re-hook hardware AudioEffects whenever app opens after update
+            dspService?.dspController?.forceRehookAllSessions()
             syncUiFromConfig()
         }
 
@@ -161,7 +163,7 @@ class MainActivity : AppCompatActivity() {
             setTypeface(typeface, Typeface.BOLD)
         }
         val tvByZydan = TextView(this).apply {
-            text = "by Zydan • v1.1"
+            text = "by Zydan • v1.2 Full Power"
             setTextColor(Color.parseColor("#F59E0B"))
             textSize = 12f
             setTypeface(typeface, Typeface.BOLD)
@@ -175,13 +177,32 @@ class MainActivity : AppCompatActivity() {
         ).apply { leftMargin = dp(10) })
 
         tvStatusBadge = TextView(this).apply {
-            text = "Engine: Multi-Stage DynamicsProcessing + Vocal Clarity Active"
+            text = "Engine: 100% Full Power Vocal & Clarity Restorer Active"
             setTextColor(Color.parseColor("#94A3B8"))
             textSize = 12f
         }
         titleCol.addView(titleRow)
         titleCol.addView(tvStatusBadge)
         header.addView(titleCol)
+
+        // Force Re-Hook Audio Chip Button
+        val btnRehook = Button(this).apply {
+            text = "⚡ Reset / Boost Chip Audio"
+            setTextColor(Color.parseColor("#F59E0B"))
+            textSize = 12f
+            isAllCaps = false
+            background = cardBg("#1E293B", "#F59E0B", 8)
+            setPadding(dp(10), dp(6), dp(10), dp(6))
+            setOnClickListener {
+                dspService?.dspController?.forceRehookAllSessions()
+                syncUiFromConfig()
+                Toast.makeText(this@MainActivity, "Chip Audio HU Berhasil Di-Rehook 100% Full Power!", Toast.LENGTH_SHORT).show()
+            }
+        }
+        header.addView(btnRehook, LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        ).apply { rightMargin = dp(8) })
 
         // Speaker Polarity / Bass Phase Tester Button
         val btnPhaseTest = Button(this).apply {
